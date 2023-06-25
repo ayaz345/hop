@@ -47,7 +47,7 @@ class HopApp:
 
     def display_files(self) -> None:
         cut_files = self.files[: min(self.list_length, len(self.files))]
-        blanks: List[str] = ["" for i in range(self.list_length - len(self.files))]
+        blanks: List[str] = ["" for _ in range(self.list_length - len(self.files))]
         files_to_display: List[str] = [
             str(i.stem) + str(i.suffix) for i in cut_files
         ] + blanks
@@ -136,13 +136,13 @@ class HopApp:
         if isinstance(key, bytes):
             key = key.decode()
         key_code = ord(key)
-        if (key_code == 10 or key_code == 13) and self.input_str.startswith("!"):
+        if key_code in {10, 13} and self.input_str.startswith("!"):
             self.run_command()
-        elif (key_code == 10 or key_code == 13) and self.input_str.endswith("+"):
+        elif key_code in {10, 13} and self.input_str.endswith("+"):
             self.add_to_inventory()
-        elif key_code == 10 or key_code == 13:
+        elif key_code in {10, 13}:
             self.chdir()
-        elif key_code == 127 or key_code == 8:
+        elif key_code in {127, 8}:
             self.backspace()
             self.message = ""
         else:
